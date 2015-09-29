@@ -2,8 +2,6 @@ require_relative 'db_connection'
 
 require 'active_support/inflector'
 require 'byebug'
-# NB: the attr_accessor we wrote in phase 0 is NOT used in the rest
-# of this project. It was only a warm up.
 
 class SQLObject
 
@@ -94,7 +92,6 @@ class SQLObject
   def insert
     cols = self.class.columns.drop(1).join(", ")
     qmarks = self.class.columns.drop(1).map {|q| "?"}.join(", ")
-    p attribute_values
     DBConnection.execute(<<-SQL, *attribute_values)
       INSERT INTO
         #{self.class.table_name} (#{cols})
