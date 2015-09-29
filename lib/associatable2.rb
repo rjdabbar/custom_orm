@@ -10,14 +10,8 @@ module Associatable
       source_key = source_options.send(:foreign_key)
       through_key = through_options.send(:foreign_key)
 
-      p source_key
-      p through_key
-
       through_klass = through_options.model_class
       target_klass = source_options.model_class
-
-      p through_klass
-      p target_klass
 
       results = DBConnection.execute(<<-SQL, self.send("#{through_key}"))
         SELECT
@@ -31,8 +25,8 @@ module Associatable
         WHERE
           #{through_klass.table_name}.id = ?
       SQL
-      p results
-    p results.map {|result| target_klass.new(result)}.first
+
+     results.map {|result| target_klass.new(result)}.first
     end
   end
 end
